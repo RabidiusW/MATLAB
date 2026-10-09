@@ -1,0 +1,13 @@
+clc
+v0 = input("Enter The Initial Velocity: ");
+theta = input("Enter The Angle Of Projection: ");
+g = 9.81;
+T = 2 * v0 * sind(theta) / g;
+t = 0 : 0.01 : T;
+x = v0 * cosd(theta) * t;
+y = v0 * sind(theta) * t - 0.5 * g * t.^2;
+comet(x, y);
+xlabel("Horizontal Distance (m)");
+ylabel("Vertical Height (m)");
+title("Projectile Motion");
+grid ("on");
