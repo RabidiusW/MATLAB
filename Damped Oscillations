@@ -1,0 +1,39 @@
+clc
+function [r1 , r2] = sde(a , b , c)
+D = b.^2 - 4 * a * c;
+if D ~= 0
+    r1 = ( -b + sqrt(D) ) / ( 2 * a );
+    r2 = ( -b - sqrt(D) ) / ( 2 * a );
+else
+    r1 = -b / ( 2 * a );
+    r2 = r1;
+end
+end
+xt0 = input("Enter The Position at t = 0: ");
+vt0 = input("Enter The Velocity at t = 0: ");
+m = input("Enter The Mass: ");
+k = input("Enter The Spring Constant: ");
+b = input("Enter The Damping Constant: ");
+[r1,r2] = sde( m , b , k );
+disp(r1);
+disp(r2);
+t = 0 : 0.001 : 50 ;
+if ( isreal(r1) ) && ( r1 ~= r2 )
+    c1 = ( ( xt0 * r2 ) - vt0 ) / ( r2 - r1 );
+    c2 = ( ( vt0 - r1 * xt0 ) / ( r2 - r1 ));
+    x = c1 * exp(r1 * t) + c2 * exp(r2 * t);
+elseif ( imag(r1) ~= 0 ) && ( r1 ~= r2 )
+    alpha = ( r1 + r2 ) / 2;
+    beta = abs( ( r1 - r2 ) / ( 2 * 1i ) );
+    c1 = xt0;
+    c2 = ( vt0 - aplha * xt0 ) / beta;
+    x = ( c1 * cos( beta * t ) + c2 * sin( beta * t ) ).* exp( alpha * t );
+elseif ( r1 == r2 )
+    c1 = xt0;
+    c2 = vt0 - r1 * xt0;
+    x = ( c1 + c2 * t ).* exp( r1 * t );
+end
+comet(t, x);
+xlabel("Time (s)");
+ylabel("Position (m)");
+title("Damped Oscillation");
