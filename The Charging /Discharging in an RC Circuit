@@ -1,0 +1,26 @@
+clc
+fprintf("Resistor - Capacitor Circuits!\n");
+choice = input("Charging (c) or Discharging (d): ", "s");
+if strcmp(choice, "c")
+    voltage = input("Enter The Limiting Voltage Of The Capacitor(volts): ");
+    resistance = input("Enter The Resistance(ohms): ");
+    capacitance = input("Enter The Capacitance(farads): ");
+    tau = resistance * capacitance;
+    t = 0 : 0.001 : 5 * tau;
+    V = voltage * (1 - exp(-t / tau));
+    plot(t, V);
+    xlabel("Time (s)");
+    ylabel("Voltage (V)");
+    title("RC Circuit");
+elseif strcmp(choice, "d")
+    voltage = input("Enter The Current Voltage Of The Capacitor(volts): ");
+    resistance = input("Enter The Resistance(ohms): ");
+    capacitance = input("Enter The Capacitance(farads): ");
+    tau = resistance * capacitance;
+    t = 0 : 0.001 : 1000;
+    V = voltage * exp(-t / tau);
+    plot(t, V);
+    xlabel("Time (s)");
+    ylabel("Voltage (V)");
+    title("RC Circuit");
+end
